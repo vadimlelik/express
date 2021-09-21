@@ -1,8 +1,13 @@
 const express = require('express')
-const path = require('path')
-const app = express()
 const expHbs = require('express-handlebars')
+const path = require('path')
+
+const app = express()
+
 const port = 3000
+const addRouter = require('./routes/add')
+const coursesRouter = require('./routes/courses')
+const homeRouter = require('./routes/home')
 
 const hbs = expHbs.create({
   defaultLayout: 'main',
@@ -13,13 +18,13 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 app.use(express.static('public'))
+app.use('/add', addRouter)
+app.use('/courses', coursesRouter)
+app.use('/', homeRouter)
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
-app.get('/about', (req, res) => {
-  res.render('about')
-})
+
+
+
 
 
 app.listen(port, () => {
