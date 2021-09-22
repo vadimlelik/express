@@ -8,6 +8,7 @@ const port = 3000
 const addRouter = require('./routes/add')
 const coursesRouter = require('./routes/courses')
 const homeRouter = require('./routes/home')
+const cardRouter = require('./routes/card')
 
 const hbs = expHbs.create({
   defaultLayout: 'main',
@@ -19,9 +20,11 @@ app.set('views', 'views')
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
+
+app.use('/', homeRouter)
 app.use('/add', addRouter)
 app.use('/courses', coursesRouter)
-app.use('/', homeRouter)
+app.use('/card', cardRouter)
 
 
 
