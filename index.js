@@ -1,36 +1,32 @@
 const express = require('express')
-const expHbs = require('express-handlebars')
 const path = require('path')
+const exphbs = require('express-handlebars')
+const homeRoutes = require('./routes/home')
+const cardRoutes = require('./routes/card')
+const addRoutes = require('./routes/add')
+const coursesRoutes = require('./routes/courses')
 
 const app = express()
 
-const port = 3000
-const addRouter = require('./routes/add')
-const coursesRouter = require('./routes/courses')
-const homeRouter = require('./routes/home')
-const cardRouter = require('./routes/card')
-
-const hbs = expHbs.create({
+const hbs = exphbs.create({
   defaultLayout: 'main',
   extname: 'hbs'
 })
+
 app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
-app.use(express.static('public'))
-app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({extended: true}))
 
-app.use('/', homeRouter)
-app.use('/add', addRouter)
-app.use('/courses', coursesRouter)
-app.use('/card', cardRouter)
+app.use('/', homeRoutes)
+app.use('/add', addRoutes)
+app.use('/courses', coursesRoutes)
+app.use('/card', cardRoutes)
 
+const PORT = process.env.PORT || 3000
 
-
-
-
-
-app.listen(port, () => {
-  console.log(`server running ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
 })

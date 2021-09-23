@@ -15,7 +15,6 @@
 
 .course h1 {
   margin-bottom: 2rem;
-
 }
 
 .course img {
@@ -24,10 +23,10 @@
 }
 
 .course .price.big {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
-.card-action {
+.card-action.actions {
   display: flex;
   align-items: center;
   justify-content: space-between;

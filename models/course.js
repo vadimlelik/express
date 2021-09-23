@@ -1,18 +1,16 @@
-const { v4: uuidv4 } = require('uuid');
+const uuid = require('uuid/v4')
 const fs = require('fs')
 const path = require('path')
-const { resolve } = require('path')
-const { redirect } = require('express/lib/response')
 
 class Course {
   constructor(title, price, img) {
     this.title = title
     this.price = price
     this.img = img
-    this.id = uuidv4()
+    this.id = uuid()
   }
 
-  toJson() {
+  toJSON() {
     return {
       title: this.title,
       price: this.price,
@@ -20,10 +18,13 @@ class Course {
       id: this.id
     }
   }
+
   static async update(course) {
     const courses = await Course.getAll()
+
     const idx = courses.findIndex(c => c.id === course.id)
     courses[idx] = course
+
     return new Promise((resolve, reject) => {
       fs.writeFile(
         path.join(__dirname, '..', 'data', 'courses.json'),
@@ -31,18 +32,17 @@ class Course {
         (err) => {
           if (err) {
             reject(err)
-
           } else {
             resolve()
           }
         }
       )
     })
-
   }
+
   async save() {
     const courses = await Course.getAll()
-    courses.push(this.toJson())
+    courses.push(this.toJSON())
 
     return new Promise((resolve, reject) => {
       fs.writeFile(
@@ -51,16 +51,14 @@ class Course {
         (err) => {
           if (err) {
             reject(err)
-
           } else {
             resolve()
           }
         }
       )
     })
-
-
   }
+
   static getAll() {
     return new Promise((resolve, reject) => {
       fs.readFile(
@@ -75,11 +73,12 @@ class Course {
         }
       )
     })
-
   }
+
   static async getById(id) {
     const courses = await Course.getAll()
     return courses.find(c => c.id === id)
   }
 }
+
 module.exports = Course
