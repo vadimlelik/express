@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const homeRoutes = require('./routes/home')
 const cardRoutes = require('./routes/card')
@@ -18,7 +19,7 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 app.use('/', homeRoutes)
 app.use('/add', addRoutes)
@@ -26,9 +27,24 @@ app.use('/courses', coursesRoutes)
 app.use('/card', cardRoutes)
 
 const PORT = process.env.PORT || 3000
-const pasword = 'Qt8V9TSyUSRI0ETL'
-const url = 'mongodb+srv://vadim:Qt8V9TSyUSRI0ETL@cluster0.x7ng0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+async function start() {
+  try {
+    const pasword = 'Qt8V9TSyUSRI0ETL'
+    const url = `mongodb+srv://vadim:${pasword}@cluster0.x7ng0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    await mongoose.connect(url, { useNewUrlParser: true })
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`)
+    })
+
+  } catch (e) {
+    console.log(e);
+  }
+
+
+}
+start()
+
+
+
