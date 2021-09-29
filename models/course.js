@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose')
+const {Schema, model} = require('mongoose')
+
 const course = new Schema({
   title: {
     type: String,
@@ -8,9 +9,11 @@ const course = new Schema({
     type: Number,
     required: true
   },
-  img: {
-    type: String,
+  img: String,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
-
 })
+
 module.exports = model('Course', course)
